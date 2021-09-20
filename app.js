@@ -54,6 +54,12 @@ app.get('/users/new', newUser);
 const storeUser = require('./controllers/storeUserController');
 app.post('/users/store', storeUser);
 
+const loginUser = require('./controllers/loginController');
+app.get('/users/login', loginUser);
+
+const loginUserAuthenticate = require('./controllers/loginUserAuthenticateController');
+app.post('/users/auth', loginUserAuthenticate);
+
 
 app.listen(4000, ()=>{
     console.log('The server is running on the PORT 4000');
