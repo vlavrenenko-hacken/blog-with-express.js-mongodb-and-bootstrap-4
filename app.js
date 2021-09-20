@@ -48,6 +48,13 @@ app.post('/posts/store', storePost);
 const fullTextSearch = require('./controllers/fullTextSearchController');
 app.get('/posts/find', fullTextSearch);
 
+const newUser = require('./controllers/newUserController');
+app.get('/users/new', newUser);
+
+const storeUser = require('./controllers/storeUserController');
+app.post('/users/store', storeUser);
+
+
 app.listen(4000, ()=>{
     console.log('The server is running on the PORT 4000');
 })
