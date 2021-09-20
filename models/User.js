@@ -4,8 +4,15 @@ const Schema = mongoose.Schema;
 
 
 const UserSchema = new Schema({
-    username:String,
-    password:String
+    username:{
+        type:String,
+        required: true,
+        unique: true
+    },
+    password:{
+        required: true,
+        unique: true
+    }
 })
 
 UserSchema.pre('save', function(next){
