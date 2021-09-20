@@ -7,6 +7,15 @@ const path = require("path");
 const fileUpload = require("express-fileupload")
 const mongoose = require("mongoose");
 
+const validateMiddleWare = (req, res, next)=>{
+    if (req?.body?.title == null || req?.files?.image == null) {
+        return res.redirect('/posts/new')
+    }
+    next()
+}
+
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -15,7 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"))
 app.use(fileUpload())
 app.set('view engine', "ejs");
-
+app.use('/posts/find', validateMiddleWare)
 
 
 mongoose.connect("mongodb+srv://admin:09111999@cluster0.i9bec.mongodb.net/BlogPosts?retryWrites=true&w=majority", {useNewUrlParser:true, useUnifiedTopology: true},(err)=>{
