@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"))
 app.use(fileUpload())
 app.set('view engine', "ejs");
-app.use('/posts/find', validateMiddleWare)
+app.use('/posts/store', validateMiddleWare)
 
 
 mongoose.connect("mongodb+srv://admin:09111999@cluster0.i9bec.mongodb.net/BlogPosts?retryWrites=true&w=majority", {useNewUrlParser:true, useUnifiedTopology: true},(err)=>{
