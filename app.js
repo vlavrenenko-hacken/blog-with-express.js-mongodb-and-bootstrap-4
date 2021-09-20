@@ -4,15 +4,12 @@ const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const bodyParser = require('body-parser');
 const path = require("path");
-const fileUpload = require("express-fileupload")
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
+const connectDB = require('./config/db');
 
-const validateMiddleWare = (req, res, next)=>{
-    if (req?.body?.title == null || req?.files?.image == null) {
-        return res.redirect('/posts/new')
-    }
-    next()
-}
+
+const validateMiddleWare = require('./middlewares/validationMiddleWare');
 
 
 
@@ -21,62 +18,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(express.static("public"))
-app.use(fileUpload())
+app.use(express.static("public"));
+app.use(fileUpload());
 app.set('view engine', "ejs");
-app.use('/posts/store', validateMiddleWare)
+app.use("/posts/store", validateMiddleWare);
 
 
-mongoose.connect("mongodb+srv://admin:09111999@cluster0.i9bec.mongodb.net/BlogPosts?retryWrites=true&w=majority", {useNewUrlParser:true, useUnifiedTopology: true},(err)=>{
-    if (err) {
-        console.log(err)
-    }
-} )
+connectDB();
 
-app.get('/', async(req, res)=>{
-    const blogPosts = await BlogPost.find({})
-    res.render('index', {posts:blogPosts});
-})
-app.get('/about', (req, res)=>{
-    res.render('about');
-})
-app.get('/contact', (req, res)=>{
-    res.render('contact');
-})
-app.get("/post/:id", async(req, res)=>{
-    const post = await BlogPost.findById(req.params.id);
-    res.render('post', {
-        blogPost:post
-    })
-})
+const home = require('./controllers/homeController');
+app.get("/", home);
 
-app.get("/posts/new", (req, res)=>{
-    res.render('create');
-})
+const about = require('./controllers/aboutController');
+app.get("/about", about);
 
-app.post('/posts/store', (req, res)=>{
-    if (!req.files) {
-        res.send("File was not found");
-        return;
-    }
-    let image = req.files.image;
-    image.mv(path.resolve(__dirname,'public/img', image.name), async (error) => {
-        await BlogPost.create({...req.body, image: `/img/${image.name}`});
-        console.log(path.resolve(__dirname, 'public/img', image.name));
-        console.log('-------------------------------------------------------------------------------------------');
-        res.redirect('/');
-    })
+const contact = require('./controllers/contactController');
+app.get("/contact", contact);
 
-})
+const getPost = require('./controllers/getPostController');
+app.get("/post/:id", getPost);
 
-app.get('/posts/find', (req, res)=>{
-    const query = req.query.data
-    BlogPost.find({$or:[{title:{'$regex':query}}, {body:{'$regex':query}}]}, (err, posts)=>{
-        res.render('index', {posts:posts});
-        console.log(err);
-    })
-})
+const newPost = require('./controllers/newPostController');
+app.get("/posts/new", newPost);
+
+const storePost = require('./controllers/storePostController');
+app.post('/posts/store', storePost);
+
+
+const fullTextSearch = require('./controllers/fullTextSearchController');
+app.get('/posts/find', fullTextSearch);
 
 app.listen(4000, ()=>{
-    console.log('The server is running on the PORT 4000')
+    console.log('The server is running on the PORT 4000');
 })
