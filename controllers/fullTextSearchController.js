@@ -1,4 +1,4 @@
-const BlogPost = require("./models/BlogPost");
+const BlogPost = require("../models/BlogPost");
 
 module.exports = (req, res)=>{
     const query = req.query.data
