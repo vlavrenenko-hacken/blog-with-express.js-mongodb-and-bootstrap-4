@@ -5,6 +5,7 @@ const BlogPost = require('./models/BlogPost');
 const bodyParser = require('body-parser');
 const path = require("path");
 const fileUpload = require("express-fileupload")
+const mongoose = require("mongoose");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,9 +14,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"))
 app.use(fileUpload())
+app.set('view engine', "ejs");
 
 
 
+mongoose.connect("mongodb+srv://admin:09111999@cluster0.i9bec.mongodb.net/BlogPosts?retryWrites=true&w=majority", {useNewUrlParser:true, useUnifiedTopology: true},(err)=>{
+    if (err) {
+        console.log(err)
+    }
+} )
 
 app.get('/', async(req, res)=>{
     const blogPosts = await BlogPost.find({})
