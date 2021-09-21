@@ -27,7 +27,11 @@ app.use(expressSession({
     secret: 'keyboard cat'
 }))
 
-
+global.loggedIn = null;
+app.use("*", (req, res, next)=>{
+    loggedIn = req.session.userId;
+    next();
+})
 connectDB();
 
 const home = require('./controllers/homeController');
