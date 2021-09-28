@@ -37,6 +37,9 @@ connectDB();
 const home = require('./controllers/homeController');
 app.get("/", home);
 
+const pagination = require('./controllers/paginationController');
+app.get("/next/:counter", pagination);
+
 const about = require('./controllers/aboutController');
 app.get("/about", about);
 
@@ -51,7 +54,6 @@ app.get("/posts/new", authMiddleware ,newPost);
 
 const storePost = require('./controllers/storePostController');
 app.post('/posts/store', storePost);
-
 
 const fullTextSearch = require('./controllers/fullTextSearchController');
 app.get('/posts/find', fullTextSearch);
@@ -70,6 +72,9 @@ app.post('/users/auth', reflectIfAuthenticated,  loginUserAuthenticate);
 
 const logoutUser = require('./controllers/logoutUserController');
 app.get('/users/logout', logoutUser);
+
+app.use((req, res)=>res.render('notfound'));
+
 
 app.listen(4000, ()=>{
     console.log('The server is running on the PORT 4000');
