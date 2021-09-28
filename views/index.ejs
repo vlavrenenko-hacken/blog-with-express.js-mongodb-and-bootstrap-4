@@ -55,9 +55,11 @@
 
             <%} %>
             <!-- Divider-->
+            <%if(length>=4){%>
             <hr class="my-4" />
+            <div class="d-flex justify-content-end mb-4" ><a class="btn btn-primary text-uppercase" id="btn-next" href="/next/<%=++counter%>">Older Posts →</a></div>
             <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+            <%}%>
         </div>
     </div>
 </div>
