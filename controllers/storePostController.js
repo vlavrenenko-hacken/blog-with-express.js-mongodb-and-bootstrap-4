@@ -9,7 +9,6 @@ module.exports = (req, res)=>{
     let image = req.files.image;
     image.mv(path.resolve(__dirname, '..', 'public/img', image.name), async (error) => {
         await BlogPost.create({...req.body, image: `/img/${image.name}`});
-        console.log(path.resolve(__dirname, 'public/img', image.name));
         res.redirect('/');
     })}
 
