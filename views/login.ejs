@@ -23,24 +23,24 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="my-5">
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * SB Forms Contact Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- This form is pre-integrated with SB Forms.-->
-                    <!-- To make this form functional, sign up at-->
-                    <!-- https://startbootstrap.com/solution/contact-forms-->
-                    <!-- to get an API token!-->
+                    <% if(errors != null && errors.length !== 0 && typeof errors[0] !=="undefined"){ %>
+                        <ul class="list-group">
+                            <% for (var i = 0; i < errors.length; i++) { %>
+                                <li class="list-group-item list-group-item-danger"><%= errors[i] %></li>
+                            <% } %>
+                        </ul>
+                    <%}%>
                     <form action="/users/auth"  method="POST" id="contactForm">
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls">
                                 <label>Username</label>
                                 <input type="text" class="form-control" placeholder="User Name"
-                                       id="username" name="username">
+                                       id="username" name="username" value="<%=username%>">
                             </div>
                         </div>
                         <div class="form-group floating-label-form-group controls">
                             <label>Password</label>
-                            <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                            <input type="password" class="form-control" placeholder="Password" id="password" name="password" value="<%=password%>">
                         </div>
                         <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Login</button>
                     </form>
