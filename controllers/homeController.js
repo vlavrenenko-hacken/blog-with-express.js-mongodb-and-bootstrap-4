@@ -4,7 +4,7 @@ global.counter = 1;
 
 module.exports=async(req, res)=>{1
     global.counter=1;
-    const blogPosts = await BlogPost.find({});
+    const blogPosts = await BlogPost.find({}).populate('userid');
     const totalPosts = blogPosts?blogPosts.length:0;
     const filteredPosts = blogPosts.slice(0, 4);
 
