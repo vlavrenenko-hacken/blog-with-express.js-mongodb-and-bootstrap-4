@@ -11,12 +11,16 @@ module.exports = (req, res)=>{
                     res.redirect('/');
                 }
                 else{
-                    res.redirect('/users/login');
+                    req.flash('loginError', {error:'Login is failed. Passwords do not match'});
+                    req.flash('loginData', req.body);
+                    res.redirect('/users/login')
                 }
             })
         }
         else{
-            res.redirect('/users/login');
+            req.flash('loginError', {error:'Login is failed. Usernames do not match'});
+            req.flash('loginData', req.body);
+            res.redirect('/users/login')
         }
     })
 }
