@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const connectDB = require('./config/db');
 const expressSession = require('express-session');
+const flash = require('connect-flash');
 
 
 const validateMiddleWare = require('./middlewares/validationMiddleware');
@@ -16,6 +17,11 @@ const reflectIfAuthenticated = require('./middlewares/redirectIfAuthenticatedMid
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// add a specific area to the session object to flash the validation errors away when they've been displayed
+//With the flash middleware, all requests will have a req.flash() function that can be used for flash messages.
+app.use(flash())
+
 
 // parse application/json
 app.use(bodyParser.json());
